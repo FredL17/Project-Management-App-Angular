@@ -1,0 +1,57 @@
+#project-view {
+  background-color: white;
+  border-radius: 15px;
+}
+
+#side-bar {
+  background-color: white;
+  border-radius: 15px 0 0 15px;
+}
+
+#task-view {
+  background-color: #f7f7f7;
+  border-radius: 0 15px 15px 0;
+}
+
+#project-list {
+  width: 100%;
+  height: 85%;
+}
+
+h2 {
+  color: #9bdeac;
+}
+
+.project {
+  display: block;
+  padding: 5px 3px 5px 3px;
+  margin-bottom: 8px;
+  border-radius: 15px;
+  color: black;
+}
+
+.project:hover {
+  background-color: #e0dede;
+  text-decoration: none;
+}
+
+.project.is-active {
+  background-color: #b6eb7a;
+}
+
+.task {
+  background-color: white;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 3px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.task:active {
+  transform: scale(0.9);
+}
+
+.task:hover {
+  box-shadow: 0 0 0 4px #eeeeee;
+}
