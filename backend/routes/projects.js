@@ -8,7 +8,13 @@ const { Project } = require("../models/index");
 router.get("/", (req, res) => {
   Project.find()
     .then(projects => {
-      res.status(200).json(projects);
+      const projectList = projects.map(project => {
+        return {
+          id: project._id,
+          title: project.title
+        };
+      });
+      res.status(200).json(projectList);
     })
     .catch(err => {
       console.err(err);

@@ -15,7 +15,8 @@
 
 #project-list {
   width: 100%;
-  height: 85%;
+  height: 70%;
+  overflow-y: auto;
 }
 
 h2 {
@@ -33,6 +34,7 @@ h2 {
 .project:hover {
   background-color: #e0dede;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .project.is-active {
