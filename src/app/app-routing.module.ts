@@ -4,19 +4,27 @@ import { ProjectsComponent } from './projects/projects.component';
 import { NewProjectComponent } from './projects/new-project/new-project.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProjectsComponent
+    redirectTo: '/projects',
+    pathMatch: 'full'
   },
-  { path: 'new-project', component: NewProjectComponent },
+  { path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'new-project',
+    component: NewProjectComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule {}

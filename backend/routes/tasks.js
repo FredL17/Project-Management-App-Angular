@@ -10,7 +10,9 @@ router.get("/:projectId/tasks", (req, res) => {
       res.status(200).json(tasks);
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 
@@ -29,7 +31,9 @@ router.post("/:projectId/tasks", (req, res) => {
       });
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 
@@ -48,7 +52,9 @@ router.put("/:projectId/tasks/:taskId", (req, res) => {
       });
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 

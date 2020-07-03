@@ -3,14 +3,35 @@
     <mat-card-header class="justify-content-center">
       <mat-card-title>Sign up</mat-card-title>
     </mat-card-header>
-    <form>
+    <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
       <mat-form-field class="w-100">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Email" type="email" />
+        <input
+          matInput
+          ngModel
+          name="email"
+          placeholder="Email"
+          type="email"
+          #emailInput="ngModel"
+          required
+          email
+        />
+        <mat-error *ngIf="emailInput.invalid">Email is invalid.</mat-error>
       </mat-form-field>
       <mat-form-field class="w-100">
         <mat-label>Password</mat-label>
-        <input matInput placeholder="Password" type="password" />
+        <input
+          matInput
+          ngModel
+          name="password"
+          placeholder="Password"
+          type="password"
+          #passwordInput="ngModel"
+          required
+        />
+        <mat-error *ngIf="passwordInput.invalid"
+          >Password is invalid.</mat-error
+        >
       </mat-form-field>
       <div class="text-center">
         <button mat-raised-button type="submit">Sign up</button>

@@ -1,11 +1,12 @@
 // Third-party packages.
 const express = require("express");
 const router = express.Router();
-// Import mongoose models.
+// Mongoose models.
 const { Project } = require("../models/index");
+const checkAuth = require("../middleware/check-auth");
 
 /* Get all projects. */
-router.get("/", (req, res) => {
+router.get("/", checkAuth, (req, res) => {
   Project.find()
     .then(projects => {
       const projectList = projects.map(project => {
@@ -17,7 +18,9 @@ router.get("/", (req, res) => {
       res.status(200).json(projectList);
     })
     .catch(err => {
-      console.err(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 
@@ -35,7 +38,9 @@ router.post("/", (req, res) => {
       });
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 
@@ -48,7 +53,9 @@ router.put("/:id", (req, res) => {
       });
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 
@@ -62,7 +69,9 @@ router.delete("/:id", (req, res) => {
       });
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        error: err
+      });
     });
 });
 

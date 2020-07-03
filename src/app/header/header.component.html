@@ -9,19 +9,32 @@
     />
   </a>
   <div>
-    <a
+    <button
+      *ngIf="!userIsAuthenticated"
       class="mx-2"
       routerLink="signup"
       routerLinkActive="router-link-active"
       mat-stroked-button
-      >Sign up</a
     >
-    <a
+      Sign up
+    </button>
+    <button
+      *ngIf="!userIsAuthenticated"
       class="mx-2"
       routerLink="login"
       routerLinkActive="router-link-active"
       mat-stroked-button
-      >Login</a
     >
+      Login
+    </button>
+    <button
+      *ngIf="userIsAuthenticated"
+      class="mx-2"
+      routerLinkActive="router-link-active"
+      mat-stroked-button
+      (click)="onLogout()"
+    >
+      Logout
+    </button>
   </div>
 </nav>
