@@ -7,7 +7,12 @@
     <p *ngIf="taskList.length === 0">No tasks created for this proect.</p>
     <ng-container *ngIf="taskList.length !== 0">
       <div *ngFor="let task of taskList" class="task">
-        <p>{{ task.title }}</p>
+        <p
+          [ngClass]="task.completed ? 'task-completed' : null"
+          (click)="onChangeTaskState(task.id, !task.completed)"
+        >
+          {{ task.title }}
+        </p>
         <div class="actions">
           <fa-icon
             [icon]="edit"

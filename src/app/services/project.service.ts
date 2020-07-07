@@ -43,8 +43,7 @@ export class ProjectService {
   /* Update a project. */
   updateProject(title: string, projectId: string): void {
     const updatedProject = {
-      title: title,
-      id: projectId
+      title: title
     };
     this.http
       .put<{ message: string; updatedProject: project }>(
@@ -56,7 +55,10 @@ export class ProjectService {
         const index = this.projectList.findIndex(
           project => project.id === projectId
         );
-        this.projectList[index] = updatedProject;
+        this.projectList[index] = {
+          ...this.projectList[index],
+          title: title
+        };
         this.router.navigate(['/', 'projects']);
       });
   }
@@ -97,6 +99,7 @@ export class ProjectService {
         this.ROOT_URL + `/projects/${projectId}/tasks`
       )
       .subscribe(res => {
+        console.log(res.taskList);
         this.taskList = res.taskList;
         this.taskListSubject.next(this.taskList);
       });
@@ -104,9 +107,7 @@ export class ProjectService {
 
   updateTask(projectId: string, taskId: string, title: string): void {
     const updatedTask = {
-      title: title,
-      id: taskId,
-      projectId: projectId
+      title: title
     };
     this.http
       .put(
@@ -116,7 +117,10 @@ export class ProjectService {
       .subscribe(res => {
         console.log(res);
         const index = this.taskList.findIndex(task => task.id === taskId);
-        this.taskList[index] = updatedTask;
+        this.taskList[index] = {
+          ...this.taskList[index],
+          title: title
+        };
         this.router.navigate(['projects']);
       });
   }
@@ -127,6 +131,25 @@ export class ProjectService {
       .subscribe(res => {
         this.taskList = this.taskList.filter(task => task.id !== taskId);
         this.taskListSubject.next(this.taskList);
+      });
+  }
+
+  changeTaskState(projectId: string, taskId: string, completed: boolean): void {
+    const updatedTaskState = {
+      completed: completed
+    };
+    this.http
+      .put(
+        this.ROOT_URL + `/projects/${projectId}/tasks/${taskId}`,
+        updatedTaskState
+      )
+      .subscribe(res => {
+        console.log(res);
+        const index = this.taskList.findIndex(task => task.id === taskId);
+        this.taskList[index] = {
+          ...this.taskList[index],
+          completed: completed
+        };
       });
   }
 

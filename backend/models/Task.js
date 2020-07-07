@@ -7,6 +7,10 @@ const taskSchema = mongoose.Schema({
     minLength: 1,
     trim: true
   },
+  completed: {
+    type: Boolean,
+    required: true
+  },
   _projectId: {
     type: mongoose.Types.ObjectId,
     ref: "Project",

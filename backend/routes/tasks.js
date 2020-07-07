@@ -11,7 +11,8 @@ router.get("/:projectId/tasks", (req, res) => {
         return {
           id: task._id,
           projectId: task._projectId,
-          title: task.title
+          title: task.title,
+          completed: task.completed
         };
       });
       res.status(200).json({
@@ -31,7 +32,8 @@ router.get("/:projectId/tasks", (req, res) => {
 router.post("/:projectId/tasks", (req, res) => {
   const task = new Task({
     title: req.body.title,
-    _projectId: req.params.projectId
+    _projectId: req.params.projectId,
+    completed: true
   });
   task
     .save()

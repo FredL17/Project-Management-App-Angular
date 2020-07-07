@@ -27,3 +27,8 @@
 h2 {
   color: #9bdeac;
 }
+
+.task-completed {
+  color: green;
+  text-decoration: line-through;
+}
