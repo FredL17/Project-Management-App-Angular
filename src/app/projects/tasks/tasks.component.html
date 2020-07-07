@@ -1,0 +1,29 @@
+<h2 class="my-2">Tasks</h2>
+<div id="task-list">
+  <p *ngIf="currentViewedProjectId === ''">
+    Please select a project to view its tasks.
+  </p>
+  <ng-container *ngIf="currentViewedProjectId !== ''">
+    <p *ngIf="taskList.length === 0">No tasks created for this proect.</p>
+    <ng-container *ngIf="taskList.length !== 0">
+      <div *ngFor="let task of taskList" class="task">
+        <p>{{ task.title }}</p>
+        <div class="actions">
+          <fa-icon
+            [icon]="edit"
+            class="mx-1"
+            (click)="onUpdateTask(task.id)"
+          ></fa-icon>
+          <fa-icon
+            [icon]="trash"
+            class="mx-1"
+            (click)="onDeleteTask(task.id)"
+          ></fa-icon>
+        </div>
+      </div>
+    </ng-container>
+    <button mat-fab color="accent" (click)="onCreateTask()">
+      +
+    </button>
+  </ng-container>
+</div>

@@ -1,21 +1,21 @@
 <div>
-  <mat-card class="w-25 h-25 mx-auto" id="project-form">
+  <mat-card class="w-25 h-25 mx-auto" id="task-form">
     <mat-card-header class="justify-content-center">
-      <mat-card-title>New Project</mat-card-title>
+      <mat-card-title>New Task</mat-card-title>
     </mat-card-header>
-    <form (submit)="createProject(projectForm)" #projectForm="ngForm">
+    <form (submit)="createTask(taskForm)" #taskForm="ngForm">
       <mat-form-field class="w-100">
-        <mat-label>Title</mat-label>
+        <mat-label>Name</mat-label>
         <input
           matInput
           ngModel
           name="title"
-          placeholder="Project title"
+          placeholder="Task name"
           type="text"
           #titleInput="ngModel"
           required
         />
-        <mat-error *ngIf="titleInput.invalid">Title can't be empty.</mat-error>
+        <mat-error *ngIf="titleInput.invalid">Name can't be empty.</mat-error>
       </mat-form-field>
       <div class="text-center">
         <button mat-raised-button color="accent" type="submit">Create</button>

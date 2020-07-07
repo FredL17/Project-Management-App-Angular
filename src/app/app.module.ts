@@ -16,6 +16,11 @@ import { NewProjectComponent } from './projects/new-project/new-project.componen
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './services/auth-interceptor';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { EditProjectComponent } from './projects/edit-project/edit-project.component';
+import { TasksComponent } from './projects/tasks/tasks.component';
+import { NewTaskComponent } from './projects/tasks/new-task/new-task.component';
+import { EditTaskComponent } from './projects/tasks/edit-task/edit-task.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,11 @@ import { AuthInterceptor } from './services/auth-interceptor';
     ProjectsComponent,
     NewProjectComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    EditProjectComponent,
+    TasksComponent,
+    NewTaskComponent,
+    EditTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +44,8 @@ import { AuthInterceptor } from './services/auth-interceptor';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   providers: [
     {

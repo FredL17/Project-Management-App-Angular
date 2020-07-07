@@ -1,9 +1,9 @@
 <div>
-  <mat-card class="w-25 h-25 mx-auto" id="project-form">
+  <mat-card class="w-25 h-25 mx-auto" id="edit-form">
     <mat-card-header class="justify-content-center">
-      <mat-card-title>New Project</mat-card-title>
+      <mat-card-title>Edit Project</mat-card-title>
     </mat-card-header>
-    <form (submit)="createProject(projectForm)" #projectForm="ngForm">
+    <form (submit)="updateProject(projectForm)" #projectForm="ngForm">
       <mat-form-field class="w-100">
         <mat-label>Title</mat-label>
         <input
@@ -18,7 +18,7 @@
         <mat-error *ngIf="titleInput.invalid">Title can't be empty.</mat-error>
       </mat-form-field>
       <div class="text-center">
-        <button mat-raised-button color="accent" type="submit">Create</button>
+        <button mat-raised-button color="accent" type="submit">Save</button>
       </div>
     </form>
   </mat-card>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-new-project',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-project.component.css']
 })
 export class NewProjectComponent implements OnInit {
+  constructor(private projectService: ProjectService) {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  createProject(form: NgForm): void {
+    if (form.invalid) {
+      return;
+    }
+    this.projectService.createProject(form.value.title);
   }
-
 }

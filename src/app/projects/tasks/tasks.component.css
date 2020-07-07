@@ -1,0 +1,29 @@
+#task-list {
+  height: 75%;
+  overflow-y: scroll;
+}
+
+.task {
+  background-color: white;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 3px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.task:active {
+  transform: scale(0.9);
+}
+
+.task:hover {
+  box-shadow: 0 0 0 4px #eeeeee;
+}
+
+.actions {
+  display: inline;
+}
+
+h2 {
+  color: #9bdeac;
+}

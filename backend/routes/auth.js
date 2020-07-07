@@ -1,7 +1,8 @@
-// Third-party packages.
+// Libraries.
 const express = require("express");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+// DB models.
 const { User } = require("../models/index");
 
 const router = express.Router();

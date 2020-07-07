@@ -38,8 +38,9 @@ mongoose
       next();
     });
 
-    app.use("/projects", projectsRouter);
     app.use("/projects", tasksRouter);
+    app.use("/projects", projectsRouter);
+
     app.use(authRouter);
 
     app.listen(3000, () => {

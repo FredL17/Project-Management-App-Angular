@@ -9,6 +9,7 @@ const taskSchema = mongoose.Schema({
   },
   _projectId: {
     type: mongoose.Types.ObjectId,
+    ref: "Project",
     required: true
   }
 });

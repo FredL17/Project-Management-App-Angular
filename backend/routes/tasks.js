@@ -7,10 +7,21 @@ const { Task } = require("../models/index");
 router.get("/:projectId/tasks", (req, res) => {
   Task.find({ _projectId: req.params.projectId })
     .then(tasks => {
-      res.status(200).json(tasks);
+      const taskList = tasks.map(task => {
+        return {
+          id: task._id,
+          projectId: task._projectId,
+          title: task.title
+        };
+      });
+      res.status(200).json({
+        message: "Fetched tasks successfully.",
+        taskList: taskList
+      });
     })
     .catch(err => {
       res.status(400).json({
+        message: "Unable to fetch projects.",
         error: err
       });
     });
@@ -32,6 +43,7 @@ router.post("/:projectId/tasks", (req, res) => {
     })
     .catch(err => {
       res.status(400).json({
+        message: "Unable to create this task.",
         error: err
       });
     });
@@ -48,11 +60,12 @@ router.put("/:projectId/tasks/:taskId", (req, res) => {
   )
     .then(() => {
       res.status(200).json({
-        message: "Task updated."
+        message: "Task updated successfully."
       });
     })
     .catch(err => {
       res.status(400).json({
+        message: "Unable to update this task.",
         error: err
       });
     });
@@ -66,12 +79,15 @@ router.delete("/:projectId/tasks/:taskId", (req, res) => {
   })
     .then(removedTask => {
       res.status(200).json({
-        message: "Task removed.",
+        message: "Task removed successfully.",
         removedTask: removedTask
       });
     })
     .catch(err => {
-      console.error(err);
+      res.status(400).json({
+        message: "Unable to delete this task.",
+        error: err
+      });
     });
 });
 

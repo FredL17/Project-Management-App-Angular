@@ -5,6 +5,9 @@ import { NewProjectComponent } from './projects/new-project/new-project.componen
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './services/auth.guard';
+import { EditProjectComponent } from './projects/edit-project/edit-project.component';
+import { NewTaskComponent } from './projects/tasks/new-task/new-task.component';
+import { EditTaskComponent } from './projects/tasks/edit-task/edit-task.component';
 
 const routes: Routes = [
   {
@@ -16,6 +19,21 @@ const routes: Routes = [
   {
     path: 'new-project',
     component: NewProjectComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'projects/:projectId/new-task',
+    component: NewTaskComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'projects/:projectId/edit-task/:taskId',
+    component: EditTaskComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'edit-project/:id',
+    component: EditProjectComponent,
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },
