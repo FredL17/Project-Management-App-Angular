@@ -6,11 +6,12 @@
   <ng-container *ngIf="currentViewedProjectId !== ''">
     <p *ngIf="taskList.length === 0">No tasks created for this proect.</p>
     <ng-container *ngIf="taskList.length !== 0">
-      <div *ngFor="let task of taskList" class="task">
-        <p
-          [ngClass]="task.completed ? 'task-completed' : null"
-          (click)="onChangeTaskState(task.id, !task.completed)"
-        >
+      <div
+        *ngFor="let task of taskList"
+        class="task"
+        (click)="onChangeTaskState(task.id, !task.completed)"
+      >
+        <p [ngClass]="task.completed ? 'task-completed' : null">
           {{ task.title }}
         </p>
         <div class="actions">

@@ -150,6 +150,7 @@ export class ProjectService {
           ...this.taskList[index],
           completed: completed
         };
+        this.router.navigate(['projects']);
       });
   }
 

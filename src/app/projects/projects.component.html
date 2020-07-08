@@ -5,8 +5,13 @@
       <div id="project-list">
         <p *ngIf="projectList.length === 0">No projects created yet.</p>
         <ng-container *ngIf="projectList.length !== 0">
-          <div *ngFor="let project of projectList" class="project">
-            <a (click)="getTasks(project.id)">{{ project.title }} </a>
+          <div
+            *ngFor="let project of projectList"
+            class="project"
+            [ngClass]="project.id === selectedProjectId ? 'is-active' : null"
+            (click)="getTasks(project.id)"
+          >
+            <a>{{ project.title }} </a>
             <div class="actions">
               <fa-icon
                 [icon]="edit"

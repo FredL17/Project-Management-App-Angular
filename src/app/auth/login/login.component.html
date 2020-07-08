@@ -1,5 +1,6 @@
 <div>
   <mat-card class="w-25 h-25 mx-auto" id="login-form">
+    <mat-error class="text-center" *ngIf="error !== ''">{{ error }}</mat-error>
     <mat-card-header class="justify-content-center">
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
@@ -30,7 +31,7 @@
           required
         />
         <mat-error *ngIf="passwordInput.invalid"
-          >Password is invalid.</mat-error
+          >Password can't be empty.</mat-error
         >
       </mat-form-field>
       <div class="text-center">

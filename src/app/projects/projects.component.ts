@@ -35,11 +35,14 @@ export class ProjectsComponent implements OnInit {
     this.router.navigate(['/', 'new-project']);
   }
   onUpdateProject(projectId: string): void {
-    console.log(projectId);
+    this.selectedProjectId = projectId;
     this.router.navigate(['/', 'edit-project', projectId]);
   }
 
   onDeleteProject(projectId: string): void {
+    if (this.selectedProjectId === projectId) {
+      this.selectedProjectId = '';
+    }
     this.projectService.deleteProject(projectId);
   }
 

@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
+  private error: string = '';
+  private errorSubject: Subject<string> = new Subject();
   private token: string = '';
   private authStatus = false;
   private tokenTimer: any;
@@ -21,21 +23,22 @@ export class AuthService {
       email: email,
       password: password
     };
-    this.http.post(this.ROOT_URL + '/signup', authData).subscribe(res => {
-      console.log(res);
-      this.router.navigate(['/', 'login']);
-    });
+    this.http.post<any>(this.ROOT_URL + '/signup', authData).subscribe(
+      res => {
+        this.router.navigate(['/', 'login']);
+      },
+      err => {
+        this.error = err.error.message;
+        this.errorSubject.next(this.error);
+      }
+    );
   }
 
   /* Login user. */
   loginUser(email: string, password: string) {
     const authData: authData = { email: email, password: password };
-    this.http
-      .post<{ token: string; expiredIn: number }>(
-        this.ROOT_URL + '/login',
-        authData
-      )
-      .subscribe(res => {
+    this.http.post<any>(this.ROOT_URL + '/login', authData).subscribe(
+      res => {
         this.token = res.token;
         if (this.token) {
           const duration = res.expiredIn;
@@ -48,12 +51,16 @@ export class AuthService {
           this.saveAuthData(this.token, expirationDate);
           this.router.navigate(['/projects']);
         }
-      });
+      },
+      err => {
+        this.error = err.error.message;
+        this.errorSubject.next(this.error);
+      }
+    );
   }
 
   autoAuthUser(): void {
     const authData = this.getAuthData();
-    console.log(authData);
     if (!authData) {
       return;
     }
@@ -102,16 +109,14 @@ export class AuthService {
     localStorage.setItem('expirationDate', expirationDate.toISOString());
   }
 
-  private clearAuthData() {
+  private clearAuthData(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
   }
 
   private getAuthData() {
     const token = localStorage.getItem('token');
-    console.log(token);
     const expirationDate = localStorage.getItem('expirationDate');
-    console.log(expirationDate);
     if (!token || !expirationDate) {
       return;
     }
@@ -119,5 +124,9 @@ export class AuthService {
       token: token,
       expirationDate: new Date(expirationDate)
     };
+  }
+
+  getErrorAsObs(): Observable<string> {
+    return this.errorSubject.asObservable();
   }
 }

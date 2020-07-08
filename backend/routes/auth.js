@@ -21,20 +21,20 @@ router.post("/signup", (req, res) => {
         .then(result => {
           res.status(201).json({
             message: "Signed up successfully.",
-            result: result
+            error: false
           });
         })
         .catch(err => {
           res.status(400).json({
             message: "Email has already been registered.",
-            error: err
+            error: true
           });
         });
     })
     .catch(err => {
       res.status(400).json({
         message: "Sign up failed.",
-        error: err
+        error: true
       });
     });
 });
@@ -46,7 +46,8 @@ router.post("/login", (req, res) => {
     .then(user => {
       if (!user) {
         return res.status(401).json({
-          message: "Email not found."
+          message: "Email not found.",
+          error: true
         });
       }
       fetchedUser = user;
@@ -55,7 +56,8 @@ router.post("/login", (req, res) => {
     .then(result => {
       if (!result) {
         return res.status(401).json({
-          message: "Incorrect password."
+          message: "Incorrect password.",
+          error: true
         });
       }
       const token = jwt.sign(
@@ -66,14 +68,15 @@ router.post("/login", (req, res) => {
       res.status(200).json({
         message: "Logged in successfully.",
         token: token,
-        expiredIn: 3600
+        expiredIn: 3600,
+        error: false
       });
     })
     .catch(err => {
       console.error(err);
       return res.status(401).json({
         message: "Auth failed.",
-        error: err
+        error: true
       });
     });
 });
