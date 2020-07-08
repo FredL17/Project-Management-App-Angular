@@ -1,5 +1,7 @@
+// Libraries.
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+// Services.
 import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
@@ -12,7 +14,9 @@ export class NewProjectComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /* Create a new project. */
   createProject(form: NgForm): void {
+    // Do nothing if the form is invalid.
     if (form.invalid) {
       return;
     }

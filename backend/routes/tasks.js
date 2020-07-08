@@ -1,10 +1,14 @@
+// Libraries.
 const express = require("express");
-const router = express.Router();
 // Import mongoose models.
 const { Task } = require("../models/index");
+// Middleware.
+const checkAuth = require("../middleware/check-auth");
+
+const router = express.Router();
 
 /* Get all tasks from the specified project. */
-router.get("/:projectId/tasks", (req, res) => {
+router.get("/:projectId/tasks", checkAuth, (req, res) => {
   Task.find({ _projectId: req.params.projectId })
     .then(tasks => {
       const taskList = tasks.map(task => {
@@ -17,7 +21,7 @@ router.get("/:projectId/tasks", (req, res) => {
       });
       res.status(200).json({
         message: "Fetched tasks successfully.",
-        taskList: taskList
+        tasks: taskList
       });
     })
     .catch(err => {
@@ -29,11 +33,11 @@ router.get("/:projectId/tasks", (req, res) => {
 });
 
 /* Add a new task to the specified project. */
-router.post("/:projectId/tasks", (req, res) => {
+router.post("/:projectId/tasks", checkAuth, (req, res) => {
   const task = new Task({
     title: req.body.title,
     _projectId: req.params.projectId,
-    completed: true
+    completed: false
   });
   task
     .save()
@@ -52,17 +56,25 @@ router.post("/:projectId/tasks", (req, res) => {
 });
 
 /* Update an existing task in the specified project. */
-router.put("/:projectId/tasks/:taskId", (req, res) => {
+router.put("/:projectId/tasks/:taskId", checkAuth, (req, res) => {
   Task.findByIdAndUpdate(
     {
       _id: req.params.taskId,
       _projectId: req.params.projectId
     },
-    { $set: req.body }
+    { $set: req.body },
+    { new: true }
   )
-    .then(() => {
+    .then(updatedDoc => {
+      const updatedTask = {
+        id: updatedDoc._id,
+        _projectId: updatedDoc.projectId,
+        title: updatedDoc.title,
+        completed: updatedDoc.completed
+      };
       res.status(200).json({
-        message: "Task updated successfully."
+        message: "Task updated successfully.",
+        updatedTask: updatedTask
       });
     })
     .catch(err => {
@@ -74,7 +86,7 @@ router.put("/:projectId/tasks/:taskId", (req, res) => {
 });
 
 /* Delete an existing task in the specified project. */
-router.delete("/:projectId/tasks/:taskId", (req, res) => {
+router.delete("/:projectId/tasks/:taskId", checkAuth, (req, res) => {
   Task.findByIdAndDelete({
     _id: req.params.taskId,
     _projectId: req.params.projectId

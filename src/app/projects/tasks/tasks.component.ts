@@ -1,37 +1,45 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { task } from 'src/app/models/task.model';
-
+// Libraries.
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProjectService } from 'src/app/services/project.service';
 import { Subscription } from 'rxjs';
+// Models.
+import { task } from 'src/app/models/task.model';
+// Services.
+import { TaskService } from 'src/app/services/task.service';
+
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit, OnDestroy {
+  // Fontawsome favicons.
   trash: any = faTrashAlt;
   edit: any = faEdit;
+  // Local variables.
   taskList: task[] = [];
-  taskListSub: Subscription;
+  taskListSubs: Subscription;
   @Input() currentViewedProjectId: string = '';
 
-  constructor(private projectService: ProjectService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.taskListSub = this.projectService.getTaskListAsObs().subscribe(res => {
+  constructor(private taskService: TaskService, private router: Router) {
+    this.taskListSubs = this.taskService.getTaskListAsObs().subscribe(res => {
       this.taskList = res;
     });
   }
 
+  ngOnInit(): void {}
+
   ngOnDestroy(): void {
-    this.taskListSub.unsubscribe();
+    this.taskListSubs.unsubscribe();
   }
 
+  /* Navigate to new-task page. */
   onCreateTask(): void {
     this.router.navigate(['projects', this.currentViewedProjectId, 'new-task']);
   }
+
+  /* Navigate to edit-task page. */
   onUpdateTask(taskId: string): void {
     this.router.navigate([
       'projects',
@@ -41,12 +49,14 @@ export class TasksComponent implements OnInit, OnDestroy {
     ]);
   }
 
+  /* Delete a task. */
   onDeleteTask(taskId: string): void {
-    this.projectService.deleteTask(this.currentViewedProjectId, taskId);
+    this.taskService.deleteTask(this.currentViewedProjectId, taskId);
   }
 
+  /* Change a task's state. */
   onChangeTaskState(taskId: string, completed: boolean): void {
-    this.projectService.changeTaskState(
+    this.taskService.changeTaskState(
       this.currentViewedProjectId,
       taskId,
       completed

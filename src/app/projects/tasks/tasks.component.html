@@ -4,7 +4,7 @@
     Please select a project to view its tasks.
   </p>
   <ng-container *ngIf="currentViewedProjectId !== ''">
-    <p *ngIf="taskList.length === 0">No tasks created for this proect.</p>
+    <p *ngIf="taskList.length === 0">No tasks created for this project.</p>
     <ng-container *ngIf="taskList.length !== 0">
       <div
         *ngFor="let task of taskList"
@@ -28,8 +28,8 @@
         </div>
       </div>
     </ng-container>
-    <button mat-fab color="accent" (click)="onCreateTask()">
-      +
-    </button>
   </ng-container>
 </div>
+<button mat-fab color="accent" (click)="onCreateTask()">
+  +
+</button>

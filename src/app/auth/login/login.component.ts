@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
+// Services.
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onLogin(form: NgForm): void {
+    // Do nothing if the form is invalid.
     if (form.invalid) {
       return;
     }

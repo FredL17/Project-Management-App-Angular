@@ -1,29 +1,12 @@
 // Libraries.
 const express = require("express");
-const router = express.Router();
 // DB models.
 const { Project } = require("../models/index");
+const { Task } = require("../models/index");
+// Middleware.
 const checkAuth = require("../middleware/check-auth");
 
-/* Get all projects. */
-router.get("/", checkAuth, (req, res) => {
-  Project.find({ creator: req.userData.userId })
-    .then(projects => {
-      const projectList = projects.map(project => {
-        return {
-          id: project._id,
-          title: project.title
-        };
-      });
-      res.status(200).json(projectList);
-    })
-    .catch(err => {
-      res.status(400).json({
-        message: "Unable to get projects.",
-        error: err
-      });
-    });
-});
+const router = express.Router();
 
 /* Add a new project. */
 router.post("/", checkAuth, (req, res) => {
@@ -47,15 +30,45 @@ router.post("/", checkAuth, (req, res) => {
     });
 });
 
+/* Get all projects. */
+router.get("/", checkAuth, (req, res) => {
+  Project.find({ creator: req.userData.userId })
+    .then(projects => {
+      const projectList = projects.map(project => {
+        return {
+          id: project._id,
+          title: project.title
+        };
+      });
+      res.status(200).json({
+        message: "Fetched projects successfully.",
+        projects: projectList
+      });
+    })
+    .catch(err => {
+      res.status(400).json({
+        message: "Unable to fetch projects.",
+        error: err
+      });
+    });
+});
+
 /* Update an existing project. */
 router.put("/:id", checkAuth, (req, res) => {
   Project.findOneAndUpdate(
     { _id: req.params.id, creator: req.userData.userId },
-    { $set: req.body }
+    { $set: req.body },
+    { new: true }
   )
-    .then(() => {
+    .then(updatedDoc => {
+      const updatedProject = {
+        id: updatedDoc._id,
+        title: updatedDoc.title,
+        creator: updatedDoc.creator
+      };
       res.status(200).json({
-        message: "Project updated successfully."
+        message: "Project updated successfully.",
+        updatedProject: updatedProject
       });
     })
     .catch(err => {
@@ -66,18 +79,30 @@ router.put("/:id", checkAuth, (req, res) => {
     });
 });
 
-/* Delete an existing project. */
+/* Delete an existing project and all of its tasks. */
 router.delete("/:id", checkAuth, (req, res) => {
-  Project.findOneAndDelete({ _id: req.params.id, creator: req.userData.userId })
-    .then(removedProject => {
-      res.status(200).json({
-        message: "Project removed successfully.",
-        removedProject: removedProject
-      });
+  Task.deleteMany({ _projectId: req.params.id })
+    .then(() => {
+      Project.findOneAndDelete({
+        _id: req.params.id,
+        creator: req.userData.userId
+      })
+        .then(removedProject => {
+          res.status(200).json({
+            message: "Project removed successfully.",
+            removedProject: removedProject
+          });
+        })
+        .catch(err => {
+          res.status(400).json({
+            message: "Project removed failed.",
+            error: err
+          });
+        });
     })
     .catch(err => {
       res.status(400).json({
-        message: "Project removed failed.",
+        message: "Project removed failed: can't remove its tasks.",
         error: err
       });
     });

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'src/app/services/project.service';
-import { NgForm } from '@angular/forms';
+// Libraries.
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+// Services.
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -13,7 +15,7 @@ export class EditTaskComponent implements OnInit {
   taskId: string = '';
 
   constructor(
-    private projectService: ProjectService,
+    private taskService: TaskService,
     private route: ActivatedRoute
   ) {}
 
@@ -28,10 +30,6 @@ export class EditTaskComponent implements OnInit {
     if (form.invalid || this.projectId === '' || this.taskId === '') {
       return;
     }
-    this.projectService.updateTask(
-      this.projectId,
-      this.taskId,
-      form.value.title
-    );
+    this.taskService.updateTask(this.projectId, this.taskId, form.value.title);
   }
 }

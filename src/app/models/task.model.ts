@@ -1,6 +1,6 @@
 export interface task {
-  title: string;
-  projectId: string;
   id: string;
+  projectId: string;
+  title: string;
   completed: boolean;
 }

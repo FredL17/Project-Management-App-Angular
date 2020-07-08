@@ -1,7 +1,9 @@
+// Libraries.
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ProjectService } from 'src/app/services/project.service';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+// Services.
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-new-task',
@@ -11,21 +13,21 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class NewTaskComponent implements OnInit {
   projectId: string = '';
   constructor(
-    private projectService: ProjectService,
+    private taskService: TaskService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params.get('projectId'));
       this.projectId = params.get('projectId');
     });
   }
 
   createTask(form: NgForm): void {
+    // Do nothing if the form is invalid.
     if (form.invalid || this.projectId === '') {
       return;
     }
-    this.projectService.createTask(this.projectId, form.value.title);
+    this.taskService.createTask(this.projectId, form.value.title);
   }
 }

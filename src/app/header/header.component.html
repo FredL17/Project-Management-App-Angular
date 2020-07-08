@@ -13,7 +13,6 @@
       *ngIf="!userIsAuthenticated"
       class="mx-2"
       routerLink="signup"
-      routerLinkActive="router-link-active"
       mat-stroked-button
     >
       Sign up
@@ -22,7 +21,6 @@
       *ngIf="!userIsAuthenticated"
       class="mx-2"
       routerLink="login"
-      routerLinkActive="router-link-active"
       mat-stroked-button
     >
       Login
@@ -30,7 +28,6 @@
     <button
       *ngIf="userIsAuthenticated"
       class="mx-2"
-      routerLinkActive="router-link-active"
       mat-stroked-button
       (click)="onLogout()"
     >
