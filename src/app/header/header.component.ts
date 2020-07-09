@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 // Services.
 import { AuthService } from '../services/auth.service';
 
@@ -9,6 +10,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  user: any = faUser;
   authStatusSubs: Subscription;
   userIsAuthenticated = false;
 

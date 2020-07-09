@@ -1,6 +1,6 @@
 // Libraries.
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Models.

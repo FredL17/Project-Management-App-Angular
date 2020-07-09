@@ -3,28 +3,31 @@
     <div id="side-bar" class="h-100 col-sm-3 text-center">
       <h2 class="my-2">Projects</h2>
       <div id="project-list">
-        <p *ngIf="projectList.length === 0">No projects created yet.</p>
+        <p *ngIf="projectList.length === 0">
+          No projects created yet.
+        </p>
         <ng-container *ngIf="projectList.length !== 0">
-          <div
-            *ngFor="let project of projectList"
-            class="project"
-            [ngClass]="project.id === selectedProjectId ? 'is-active' : null"
-            (click)="getTasks(project.id)"
-          >
-            <a>{{ project.title }} </a>
+          <ng-container *ngFor="let project of projectList">
+            <div
+              class="project"
+              [ngClass]="project.id === selectedProjectId ? 'is-active' : null"
+              (click)="getTasks(project.id)"
+            >
+              <a>{{ project.title }} </a>
+            </div>
             <div class="actions" *ngIf="project.id === selectedProjectId">
               <fa-icon
                 [icon]="edit"
-                class="mx-1"
+                class="mx-2"
                 (click)="onUpdateProject(project.id)"
               ></fa-icon>
               <fa-icon
                 [icon]="trash"
-                class="mx-1"
+                class="mx-2"
                 (click)="onDeleteProject(project.id)"
               ></fa-icon>
             </div>
-          </div>
+          </ng-container>
         </ng-container>
       </div>
       <button

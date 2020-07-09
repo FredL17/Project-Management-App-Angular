@@ -1,6 +1,6 @@
 // Libraries.
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Models.
@@ -14,7 +14,7 @@ import { TaskService } from '../services/task.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   // Fontawsome favicons.
   trash: any = faTrashAlt;
   edit: any = faEdit;
@@ -37,6 +37,10 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectService.getProjects();
+  }
+
+  ngOnDestroy(): void {
+    this.projectListSubs.unsubscribe();
   }
 
   /* Navigate to new-project page. */

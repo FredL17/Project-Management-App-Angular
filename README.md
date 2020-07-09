@@ -1,5 +1,25 @@
 # Project Manager Web App
 
+Project Manager is a web application for you to manage projects and their sub-tasks. The project is currently under development.
+
+## Version History
+
+### Version 1.0
+
+#### Completed
+
+1. An user is able to sign up a new account and login.
+2. An user is able to auto-login and auto-logout: an authentication token is valid for up to 1 hour.
+3. An user is able to create, read, update and delete projects.
+4. An user is able to create, read, update and delete sub-tasks of a project.
+5. An user is able to update the completion status of a sub-task: once the task being marked as completed, the text color of that task will turn into green.
+
+#### To-do
+
+1. Make the UI responsive.
+2. Add more fields to the project.
+3. Display an user's email after he or she is logged in.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.4.
 
 ## Development server
