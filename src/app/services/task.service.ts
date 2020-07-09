@@ -34,6 +34,7 @@ export class TaskService {
           console.log(res.message);
           this.taskList.push(res.task);
           this.taskListSubject.next(this.taskList);
+
           this.router.navigate(['projects']);
         },
         err => {
@@ -135,5 +136,10 @@ export class TaskService {
   /* Return taskListSubject as an observable. */
   getTaskListAsObs(): Observable<task[]> {
     return this.taskListSubject.asObservable();
+  }
+
+  /* Return taskListSubject. */
+  getTaskListSubject(): Subject<task[]> {
+    return this.taskListSubject;
   }
 }

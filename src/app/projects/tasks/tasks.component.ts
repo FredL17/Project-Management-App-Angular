@@ -54,7 +54,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.taskService.deleteTask(this.currentViewedProjectId, taskId);
   }
 
-  /* Change a task's state. */
+  /* Change a task's completion state. */
   onChangeTaskState(taskId: string, completed: boolean): void {
     this.taskService.changeTaskState(
       this.currentViewedProjectId,

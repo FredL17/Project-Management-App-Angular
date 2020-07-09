@@ -11,9 +11,9 @@
         class="task"
         (click)="onChangeTaskState(task.id, !task.completed)"
       >
-        <p [ngClass]="task.completed ? 'task-completed' : null">
+        <span [ngClass]="task.completed ? 'task-completed' : null">
           {{ task.title }}
-        </p>
+        </span>
         <div class="actions">
           <fa-icon
             [icon]="edit"
@@ -30,6 +30,11 @@
     </ng-container>
   </ng-container>
 </div>
-<button mat-fab color="accent" (click)="onCreateTask()">
+<button
+  *ngIf="currentViewedProjectId !== ''"
+  mat-fab
+  color="accent"
+  (click)="onCreateTask()"
+>
   +
 </button>

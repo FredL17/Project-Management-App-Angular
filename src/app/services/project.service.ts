@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 // Models.
 import { project } from '../models/project.model';
+// Services.
+import { TaskService } from './task.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,11 @@ export class ProjectService {
   private projectList: project[] = [];
   private error: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private taskService: TaskService,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   /* Create a project. */
   createProject(title: string): void {
@@ -28,7 +34,7 @@ export class ProjectService {
       .post<{ message: string; project: project }>(this.ROOT_URL, newProject)
       .subscribe(
         res => {
-          this.projectList.unshift(res.project);
+          this.projectList.push(res.project);
           this.router.navigate(['/', 'projects']);
         },
         err => {
@@ -88,6 +94,7 @@ export class ProjectService {
           project => project.id !== projectId
         );
         this.projectListSubject.next(this.projectList);
+        this.taskService.getTaskListSubject().next([]);
       },
       err => {
         this.error = err.error.message;

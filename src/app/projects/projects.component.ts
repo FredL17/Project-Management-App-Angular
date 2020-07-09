@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Models.
 import { project } from '../models/project.model';
-import { task } from '../models/task.model';
 // Services.
 import { ProjectService } from '../services/project.service';
 import { TaskService } from '../services/task.service';
@@ -21,11 +20,9 @@ export class ProjectsComponent implements OnInit {
   edit: any = faEdit;
   // Local variables.
   projectList: project[] = [];
-  taskList: task[] = [];
   selectedProjectId: string = '';
   // Observable subscriptions.
   projectListSubs: Subscription;
-
   constructor(
     private projectService: ProjectService,
     private taskService: TaskService,
@@ -55,10 +52,7 @@ export class ProjectsComponent implements OnInit {
 
   /* Delete a project. */
   onDeleteProject(projectId: string): void {
-    if (this.selectedProjectId === projectId) {
-      this.selectedProjectId = '';
-      this.taskList = [];
-    }
+    this.selectedProjectId = '';
     this.projectService.deleteProject(projectId);
   }
 
