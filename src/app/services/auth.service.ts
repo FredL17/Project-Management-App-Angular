@@ -10,6 +10,7 @@ import { authData } from '../models/auth-data.model';
 })
 export class AuthService {
   // Local variables.
+  private loading: boolean = false;
   private error: string = '';
   private token: string = '';
   private authStatus = false;
@@ -18,27 +19,37 @@ export class AuthService {
   readonly ROOT_URL: string = 'http://localhost:3000';
   // Subjects.
   private errorSubject: Subject<string> = new Subject();
+  private loadingSubject: Subject<boolean> = new Subject();
+
   constructor(private http: HttpClient, private router: Router) {}
 
   /* Sing up new user. */
   createUser(email: string, password: string): void {
+    this.loading = true;
+    this.loadingSubject.next(this.loading);
     const authData: authData = {
       email: email,
       password: password
     };
     this.http.post<any>(this.ROOT_URL + '/signup', authData).subscribe(
       res => {
-        this.router.navigate(['/', 'login']);
+        this.loading = false;
+        this.loadingSubject.next(this.loading);
+        this.router.navigate(['login']);
       },
       err => {
         this.error = err.error.message;
         this.errorSubject.next(this.error);
+        this.loading = false;
+        this.loadingSubject.next(this.loading);
       }
     );
   }
 
   /* Login user. */
   loginUser(email: string, password: string) {
+    this.loading = true;
+    this.loadingSubject.next(this.loading);
     const authData: authData = { email: email, password: password };
     this.http.post<any>(this.ROOT_URL + '/login', authData).subscribe(
       res => {
@@ -52,12 +63,40 @@ export class AuthService {
             new Date().getTime() + duration * 1000
           );
           this.saveAuthData(this.token, expirationDate);
-          this.router.navigate(['/projects']);
+          this.loading = false;
+          this.loadingSubject.next(this.loading);
+          this.router.navigate(['projects']);
         }
       },
       err => {
         this.error = err.error.message;
         this.errorSubject.next(this.error);
+        this.loading = false;
+        this.loadingSubject.next(this.loading);
+      }
+    );
+  }
+
+  /* Login demo user. */
+  loginDemoUser(): void {
+    this.loading = true;
+    this.loadingSubject.next(this.loading);
+    this.http.get<any>(this.ROOT_URL + '/demo-login').subscribe(
+      res => {
+        this.token = res.token;
+        if (this.token) {
+          this.authStatus = true;
+          this.authStatusListener.next(this.authStatus);
+          this.loading = false;
+          this.loadingSubject.next(this.loading);
+          this.router.navigate(['projects']);
+        }
+      },
+      err => {
+        this.error = err.error.message;
+        this.errorSubject.next(this.error);
+        this.loading = false;
+        this.loadingSubject.next(this.loading);
       }
     );
   }
@@ -85,7 +124,7 @@ export class AuthService {
     this.authStatusListener.next(this.authStatus);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
-    this.router.navigate(['/', 'login']);
+    this.router.navigate(['login']);
   }
 
   /* Get current web token. */
@@ -138,5 +177,10 @@ export class AuthService {
   /* Return errorSubject as an observable. */
   getErrorAsObs(): Observable<string> {
     return this.errorSubject.asObservable();
+  }
+
+  /* Return loadingSubject as an observable. */
+  getLoadingAsObs(): Observable<boolean> {
+    return this.loadingSubject.asObservable();
   }
 }

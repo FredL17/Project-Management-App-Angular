@@ -10,19 +10,27 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  // Local variables.
   error: string = '';
-  errorSub: Subscription;
+  loading: boolean = false;
+  // Subscriptions.
+  errorSubs: Subscription;
+  loadingSubs: Subscription;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.errorSub = this.authService.getErrorAsObs().subscribe(res => {
+    this.errorSubs = this.authService.getErrorAsObs().subscribe(res => {
       this.error = res;
+    });
+    this.loadingSubs = this.authService.getLoadingAsObs().subscribe(res => {
+      this.loading = res;
     });
   }
 
   ngOnDestroy(): void {
-    this.errorSub.unsubscribe();
+    this.errorSubs.unsubscribe();
+    this.loadingSubs.unsubscribe();
   }
 
   onLogin(form: NgForm): void {
@@ -31,5 +39,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     this.authService.loginUser(form.value.email, form.value.password);
+  }
+
+  /* Login as a demo user (auto login unavailable in this mode). */
+  onDemoUserLogin(): void {
+    this.authService.loginDemoUser();
   }
 }

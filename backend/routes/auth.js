@@ -20,21 +20,18 @@ router.post("/signup", (req, res) => {
         .save()
         .then(result => {
           res.status(201).json({
-            message: "Signed up successfully.",
-            error: false
+            message: "Signed up successfully."
           });
         })
         .catch(err => {
           res.status(400).json({
-            message: "Email has already been registered.",
-            error: true
+            message: "Email has already been registered."
           });
         });
     })
     .catch(err => {
       res.status(400).json({
-        message: "Sign up failed.",
-        error: true
+        message: "Sign up failed."
       });
     });
 });
@@ -46,8 +43,7 @@ router.post("/login", (req, res) => {
     .then(user => {
       if (!user) {
         return res.status(401).json({
-          message: "Email not found.",
-          error: true
+          message: "Email not found."
         });
       }
       fetchedUser = user;
@@ -56,27 +52,67 @@ router.post("/login", (req, res) => {
     .then(result => {
       if (!result) {
         return res.status(401).json({
-          message: "Incorrect password.",
-          error: true
+          message: "Incorrect password."
         });
       }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        "QhIPViSVv5oNadaoVhvIp5zL0HzH1JQO",
-        { expiresIn: "1h" }
-      );
-      res.status(200).json({
-        message: "Logged in successfully.",
-        token: token,
-        expiredIn: 3600,
-        error: false
-      });
+      if (fetchedUser) {
+        const token = jwt.sign(
+          { email: fetchedUser.email, userId: fetchedUser._id },
+          "QhIPViSVv5oNadaoVhvIp5zL0HzH1JQO",
+          { expiresIn: "1h" }
+        );
+        res.status(200).json({
+          message: "Logged in successfully.",
+          token: token,
+          expiredIn: 3600
+        });
+      }
     })
     .catch(err => {
       console.error(err);
       return res.status(401).json({
-        message: "Auth failed.",
-        error: true
+        message: "Auth failed."
+      });
+    });
+});
+
+/* Demo user login. */
+router.get("/demo-login", (req, res) => {
+  let demoUser;
+  User.findOne({ email: "demouser@test.com" })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: "Demo user is currently unavailable."
+        });
+      }
+      demoUser = user;
+      return bcrypt.compare("123457@abcd", user.password);
+    })
+    .then(result => {
+      if (!result) {
+        return res.status(401).json({
+          message:
+            "Demo user password has changed. Please wait for the admin to fix."
+        });
+      }
+      if (demoUser) {
+        const token = jwt.sign(
+          { email: demoUser.email, userId: demoUser._id },
+          "QhIPViSVv5oNadaoVhvIp5zL0HzH1JQO",
+          { expiresIn: "1h" }
+        );
+        res.status(200).json({
+          message: "Logged in successfully.",
+          token: token,
+          expiredIn: 3600
+        });
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(401).json({
+        message: "Demo user login failed."
       });
     });
 });

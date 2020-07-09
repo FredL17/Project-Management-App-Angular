@@ -4,7 +4,8 @@
     <mat-card-header class="justify-content-center">
       <mat-card-title>Sign up</mat-card-title>
     </mat-card-header>
-    <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
+    <mat-spinner *ngIf="loading" class="mx-auto"></mat-spinner>
+    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!loading">
       <mat-form-field class="w-100">
         <mat-label>Email</mat-label>
         <input
@@ -35,7 +36,7 @@
         >
       </mat-form-field>
       <div class="text-center">
-        <button mat-raised-button type="submit">Sign up</button>
+        <button mat-raised-button color="accent" type="submit">Sign up</button>
       </div>
     </form>
   </mat-card>
