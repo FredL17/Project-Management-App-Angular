@@ -3,7 +3,12 @@
     <mat-card-header class="justify-content-center">
       <mat-card-title>Edit Project</mat-card-title>
     </mat-card-header>
-    <form (submit)="updateProject(projectForm)" #projectForm="ngForm">
+    <mat-spinner *ngIf="loading" class="mx-auto"></mat-spinner>
+    <form
+      (submit)="updateProject(projectForm)"
+      #projectForm="ngForm"
+      *ngIf="!loading"
+    >
       <mat-form-field class="w-100">
         <mat-label>Title</mat-label>
         <input
@@ -17,8 +22,13 @@
         />
         <mat-error *ngIf="titleInput.invalid">Title can't be empty.</mat-error>
       </mat-form-field>
-      <div class="text-center">
-        <button mat-raised-button color="accent" type="submit">Save</button>
+      <div class="text-center" *ngIf="!loading">
+        <button mat-raised-button color="accent" type="submit" class="mx-2">
+          Save
+        </button>
+        <a mat-raised-button color="primary" routerLink="/projects" class="mx-2"
+          >Cancel</a
+        >
       </div>
     </form>
   </mat-card>

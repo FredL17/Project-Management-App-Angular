@@ -1,5 +1,6 @@
 <h2 class="my-2">Tasks</h2>
-<div id="task-list">
+<mat-spinner *ngIf="loading" class="mx-auto"></mat-spinner>
+<div id="task-list" *ngIf="!loading">
   <p *ngIf="currentViewedProjectId === ''">
     Please select a project to view its tasks.
   </p>
@@ -31,7 +32,7 @@
   </ng-container>
 </div>
 <button
-  *ngIf="currentViewedProjectId !== ''"
+  *ngIf="currentViewedProjectId !== '' && !loading"
   mat-fab
   color="accent"
   (click)="onCreateTask()"

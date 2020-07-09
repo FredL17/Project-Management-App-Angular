@@ -2,7 +2,8 @@
   <div class="h-100 row">
     <div id="side-bar" class="h-100 col-sm-3 text-center">
       <h2 class="my-2">Projects</h2>
-      <div id="project-list">
+      <mat-spinner *ngIf="loading" class="mx-auto"></mat-spinner>
+      <div id="project-list" *ngIf="!loading">
         <p *ngIf="projectList.length === 0">
           No projects created yet.
         </p>
@@ -31,6 +32,7 @@
         </ng-container>
       </div>
       <button
+        *ngIf="!loading"
         mat-raised-button
         color="accent"
         class="my-5"

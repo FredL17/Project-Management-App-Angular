@@ -19,19 +19,28 @@ export class TasksComponent implements OnInit, OnDestroy {
   edit: any = faEdit;
   // Local variables.
   taskList: task[] = [];
-  taskListSubs: Subscription;
+  loading: boolean = false;
   @Input() currentViewedProjectId: string = '';
+  // Subscriptions.
+  taskListSubs: Subscription;
+  loadingTasksSubs: Subscription;
 
   constructor(private taskService: TaskService, private router: Router) {
     this.taskListSubs = this.taskService.getTaskListAsObs().subscribe(res => {
       this.taskList = res;
     });
+    this.loadingTasksSubs = this.taskService
+      .getLoadingAsObs()
+      .subscribe(res => {
+        this.loading = res;
+      });
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.taskListSubs.unsubscribe();
+    this.loadingTasksSubs.unsubscribe();
   }
 
   /* Navigate to new-task page. */

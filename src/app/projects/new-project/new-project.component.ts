@@ -1,18 +1,32 @@
 // Libraries.
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 // Services.
 import { ProjectService } from 'src/app/services/project.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-project',
   templateUrl: './new-project.component.html',
   styleUrls: ['./new-project.component.css']
 })
-export class NewProjectComponent implements OnInit {
-  constructor(private projectService: ProjectService) {}
+export class NewProjectComponent implements OnInit, OnDestroy {
+  // Local variables.
+  loading: boolean = false;
+  // Subscriptions.
+  loadingSubs: Subscription;
+
+  constructor(private projectService: ProjectService) {
+    this.loadingSubs = this.projectService.getLoadingAsObs().subscribe(res => {
+      this.loading = res;
+    });
+  }
 
   ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.loadingSubs.unsubscribe();
+  }
 
   /* Create a new project. */
   createProject(form: NgForm): void {

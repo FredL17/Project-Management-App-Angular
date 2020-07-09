@@ -21,8 +21,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   // Local variables.
   projectList: project[] = [];
   selectedProjectId: string = '';
-  // Observable subscriptions.
+  loading: boolean = true;
+  // Subscriptions.
   projectListSubs: Subscription;
+  loadingProjectsSubs: Subscription;
+
   constructor(
     private projectService: ProjectService,
     private taskService: TaskService,
@@ -33,6 +36,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.projectList = res;
       });
+    this.loadingProjectsSubs = this.projectService
+      .getLoadingAsObs()
+      .subscribe(res => {
+        this.loading = res;
+      });
   }
 
   ngOnInit(): void {
@@ -41,6 +49,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.projectListSubs.unsubscribe();
+    this.loadingProjectsSubs.unsubscribe();
   }
 
   /* Navigate to new-project page. */

@@ -25,7 +25,7 @@
     >
       Login
     </button>
-    <fa-icon [icon]="user" class="mx-3"></fa-icon>
+    <fa-icon *ngIf="userIsAuthenticated" [icon]="user" class="mx-3"></fa-icon>
     <button
       *ngIf="userIsAuthenticated"
       class="mx-2"
