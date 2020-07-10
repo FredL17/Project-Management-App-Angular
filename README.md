@@ -2,6 +2,8 @@
 
 Project Manager is a web application for you to manage projects and their sub-tasks. The project is currently under development.
 
+The project is currently hosted on [AWS](http://project-manager-angular.s3-website.us-east-2.amazonaws.com).
+
 ## Version History
 
 ### Version 1.0

@@ -3,9 +3,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // Express routers.
-const projectsRouter = require("./backend/routes/projects");
-const tasksRouter = require("./backend/routes/tasks");
-const authRouter = require("./backend/routes/auth");
+const projectsRouter = require("./routes/projects");
+const tasksRouter = require("./routes/tasks");
+const authRouter = require("./routes/auth");
 
 const app = express();
 app.use(bodyParser.json());
