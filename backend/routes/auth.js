@@ -58,7 +58,7 @@ router.post("/login", (req, res) => {
       if (fetchedUser) {
         const token = jwt.sign(
           { email: fetchedUser.email, userId: fetchedUser._id },
-          "QhIPViSVv5oNadaoVhvIp5zL0HzH1JQO",
+          process.env.JWT_KEY,
           { expiresIn: "1h" }
         );
         res.status(200).json({
@@ -99,7 +99,7 @@ router.get("/demo-login", (req, res) => {
       if (demoUser) {
         const token = jwt.sign(
           { email: demoUser.email, userId: demoUser._id },
-          "QhIPViSVv5oNadaoVhvIp5zL0HzH1JQO",
+          process.env.JWT_KEY,
           { expiresIn: "1h" }
         );
         res.status(200).json({

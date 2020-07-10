@@ -4,6 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 // Models.
 import { authData } from '../models/auth-data.model';
+// Environment variables.
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class AuthService {
   private authStatus = false;
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>();
-  readonly ROOT_URL: string = 'http://localhost:3000';
+  readonly ROOT_URL: string = environment.apiURL;
   // Subjects.
   private errorSubject: Subject<string> = new Subject();
   private loadingSubject: Subject<boolean> = new Subject();

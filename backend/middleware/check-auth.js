@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     // Get the token from authorization header.
     const token = req.headers.authorization.split(" ")[1];
     // Decode the token to get email and userId.
-    const decodedToken = jwt.verify(token, "QhIPViSVv5oNadaoVhvIp5zL0HzH1JQO");
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
     req.userData = { email: decodedToken.email, userId: decodedToken.userId };
     next();
   } catch (error) {

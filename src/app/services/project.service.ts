@@ -6,6 +6,8 @@ import { Subject, Observable } from 'rxjs';
 import { project } from '../models/project.model';
 // Services.
 import { TaskService } from './task.service';
+// Environment variables.
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class ProjectService {
   loadingSubject: Subject<boolean> = new Subject();
   errorSubject: Subject<string> = new Subject();
   // Local variables.
-  readonly ROOT_URL: string = 'http://localhost:3000/projects';
+  readonly ROOT_URL: string = environment.apiURL + '/projects';
   private projectList: project[] = [];
   private error: string = '';
   private loading: boolean = false;

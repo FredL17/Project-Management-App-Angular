@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Subject, Observable } from 'rxjs';
 // Models.
 import { task } from '../models/task.model';
+// Environment variables.
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class TaskService {
   loadingSubject: Subject<boolean> = new Subject();
   errorSubject: Subject<string> = new Subject();
   // Local variables.
-  readonly ROOT_URL: string = 'http://localhost:3000/projects';
+  readonly ROOT_URL: string = environment.apiURL + '/projects';
   private taskList: task[] = [];
   private error: string = '';
   private loading: boolean = false;

@@ -20,7 +20,7 @@ mongoose.set("useUnifiedTopology", true);
 // Connect to MongoDB database.
 mongoose
   .connect(
-    "mongodb+srv://Fred:1wyRlxYuLUCvEqjp@cluster0-zankb.mongodb.net/project-management?retryWrites=true&w=majority",
+    `mongodb+srv://Fred:${process.env.MONGO_ATLAS_PASSWORD}@cluster0-zankb.mongodb.net/project-management?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
@@ -43,7 +43,9 @@ mongoose
 
     app.use(authRouter);
 
-    app.listen(3000, () => {
-      console.log("server is now running.");
+    port = process.env.PORT || "3000";
+
+    app.listen(port, () => {
+      console.log(`server is running on port ${port}.`);
     });
   });

@@ -13,6 +13,7 @@ Project Manager is a web application for you to manage projects and their sub-ta
 3. An user is able to create, read, update and delete projects.
 4. An user is able to create, read, update and delete sub-tasks of a project.
 5. An user is able to update the completion status of a sub-task: once the task being marked as completed, the text color of that task will turn into green.
+6. An user is able to use the demo user login to try the app without registering a new account.
 
 #### To-do
 
